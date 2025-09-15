@@ -162,10 +162,10 @@ const Dashboard = () => {
               <Loading />
             ) : notes.length > 0 ? (
               notes.slice(0, 5).map((note) => (
-                <div key={note.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={note.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg overflow-hidden">
                   <div className="flex-1">
                     <h4 className="font-medium text-gray-900 truncate">{note.title}</h4>
-                    <p className="text-sm text-gray-600 truncate">{note.description}</p>
+                    <p className="text-sm text-gray-600 truncate over">{note.description}</p>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {note.tags.slice(0, 2).map((tag) => (
                         <span key={tag} className="px-2 py-1 text-xs bg-primary-100 text-primary-800 rounded-full">

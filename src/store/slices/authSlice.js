@@ -81,6 +81,19 @@ export const changePassword = createAsyncThunk(
   }
 );
 
+export const fetchUsers = createAsyncThunk(
+  'auth/fetchUsers',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await authAPI.getUsers(params);
+      return response.data.data;
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to fetch users';
+      return rejectWithValue(message);
+    }
+  }
+);
+
 export const logoutUser = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
@@ -101,10 +114,22 @@ const initialState = {
   user: null,
   account: null,
   token: localStorage.getItem('token'),
+  users: [],
+  usersPagination: {
+    page: 1,
+    limit: 10,
+    total: 0,
+    pages: 0,
+  },
+  accountStats: {
+    totalUsers: 0,
+    totalActiveUsers: 0,
+  },
   isLoading: false,
   error: null,
   isAuthenticated: !!localStorage.getItem('token'),
 };
+
 
 const authSlice = createSlice({
   name: 'auth',
@@ -193,6 +218,21 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Fetch Users
+      .addCase(fetchUsers.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.users = action.payload.users;
+        state.usersPagination = action.payload.pagination;
+        state.accountStats = action.payload.accountInfo;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
