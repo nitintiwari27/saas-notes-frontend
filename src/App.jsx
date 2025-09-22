@@ -1,24 +1,3 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
-// import Homepage from './components/pages/Homepage'
-
-// function App() {
-//   const [count, setCount] = useState(0)
-
-//   return (
-//     <>
-//       <h1 class="text-3xl font-bold underline text-primary-100">
-//     Hello world!
-//   </h1>
-//   <Homepage/>
-//     </>
-//   )
-// }
-
-// export default App
-
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
